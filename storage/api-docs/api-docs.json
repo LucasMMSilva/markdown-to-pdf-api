@@ -1,0 +1,87 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Escolar",
+        "description": "Documentação da API do Sistema Escolar",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Servidor Local"
+        }
+    ],
+    "paths": {
+        "/api/convert": {
+            "post": {
+                "tags": [
+                    "Conversão"
+                ],
+                "summary": "Converte um arquivo Markdown em PDF",
+                "operationId": "94205c5eb2e0f5eb57a2c9dae13e5360",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "file"
+                                ],
+                                "properties": {
+                                    "file": {
+                                        "description": "Arquivo .md a ser convertido",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "filename": {
+                                        "description": "Nome opcional do PDF gerado (sem .pdf)",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "PDF gerado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "PDF generated successfully."
+                                        },
+                                        "file_url": {
+                                            "type": "string",
+                                            "example": "http://localhost:8000/storage/converted_pdfs/meu_arquivo.pdf"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação"
+                    },
+                    "500": {
+                        "description": "Erro interno ao gerar o PDF"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Conversão",
+            "description": "Conversão"
+        }
+    ]
+}
